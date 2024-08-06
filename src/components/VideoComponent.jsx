@@ -86,7 +86,7 @@ const VideoComponent = ({
   }
 
   const loadMoreComments = async () =>{
-    await getVideoComments(_id , 2 , comments.length)
+    await getVideoComments({videoId :_id ,page : 2 , limit :comments.length})
     .then((res) => setComments((prev) => [...prev , ...res.message]))
   }
 

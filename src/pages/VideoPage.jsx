@@ -22,7 +22,7 @@ function VideoPage() {
         Dispatch(deleteVideo(slug))
         Navigate("/videos")
       })
-      await getVideoComments(slug , 1)
+      await getVideoComments({videoId : slug , page :1})
       .then((res) => setComments(res.message))
       .then(()=>setLoading(false))
     }
