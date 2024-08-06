@@ -4,7 +4,7 @@ import { IoMenu } from "react-icons/io5";
 import { format } from "date-fns";
 import { Input, CommentCard, Button , ProfilePicture} from './index';
 import { PopupExample } from "./index";
-import { addComment, addVideoToPlaylist, deleteComment, register, toggleCommentLike, toggleVideoLike, updateComment } from "../connecting/connecting";
+import { addComment, addVideoToPlaylist, deleteComment, getVideoComments, register, toggleCommentLike, toggleVideoLike, updateComment } from "../connecting/connecting";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -85,6 +85,11 @@ const VideoComponent = ({
     .then((res) => toast(res.data))
   }
 
+  const loadMoreComments = async () =>{
+    await getVideoComments(_id , 2 , comments.length)
+    .then((res) => setComments((prev) => [...prev , ...res.message]))
+  }
+
   return (
     <div className="flex flex-col items-center w-full min-h-screen bg-gray-900 text-white md:p-4 p-2 lg:p-8" key={owner._id}>
       <div className="w-full">
@@ -154,7 +159,7 @@ const VideoComponent = ({
           />
         ))}
         {(showComments && totalcomments !== comments.length) && (
-          <p className="text-gray-500 text-right cursor-pointer hover:underline">
+          <p className="text-gray-500 text-right cursor-pointer hover:underline" onClick={() => loadMoreComments()}>
             Load more comments
           </p>
         )}

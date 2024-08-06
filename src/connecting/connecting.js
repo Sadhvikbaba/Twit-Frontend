@@ -209,8 +209,8 @@ export const getChannelVideos =  (channel) => handleApiResponse(
     apiClient.get(`${baseURL}/dashboard/videos/${channel}`, { withCredentials: true})
 );
 
-export const getVideoComments =  (videoId, page) => handleApiResponse(
-    apiClient.get(`${baseURL}/comments/${videoId}`, { withCredentials: true, params: {page} })
+export const getVideoComments =  ({videoId, page , limit = 10}) => handleApiResponse(
+    apiClient.get(`${baseURL}/comments/${videoId}`, { withCredentials: true, params: {page , limit} })
 );
 
 export const addComment =  (videoId, credentials) => handleApiResponse(
