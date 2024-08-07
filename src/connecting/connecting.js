@@ -23,7 +23,7 @@ const handleApiResponse = (apiCall) => {
             .then((res) => resolve(res.data))
             .catch((error) => {
                 const errorMessage = error.response?.data?.message;
-                if (errorMessage) reject(errorMessage[1]);
+                if (errorMessage) reject(errorMessage);
                 else reject("unknown error");
             });
     });
