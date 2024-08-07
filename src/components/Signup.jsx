@@ -31,14 +31,14 @@ function Signup() {
     const submit =async (data) =>{
         if(data.password.trim() == "")setError("password is required");
         if(data.password !=data.confirmPassword)setError("password donot match");
-        console.log(data);
+        //console.log(data);
         const formData = new FormData();
         formData.append('userName', data.userName);
         formData.append('email', data.email);
         formData.append('password', data.password);
         formData.append('avatar', data.avatar[0]);
         formData.append('fullName', data.userName);
-        console.log(formData);
+        //console.log(formData);
 
         await signUp(formData)
         .then( () =>{
