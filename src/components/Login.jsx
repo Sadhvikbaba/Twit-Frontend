@@ -21,7 +21,6 @@ function Login() {
         let id = null
         await connecting(data)
         .then((res) => {
-            console.log(res)
             id = res.message.user?._id.toString();
             dispatch(authLogin(res.message.user))})
         .catch((res) => setError(res))
