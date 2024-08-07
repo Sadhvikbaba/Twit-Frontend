@@ -23,7 +23,7 @@ function Login() {
         .then((res) => {
             id = res.message.user?._id.toString();
             dispatch(authLogin(res.message.user))})
-        .catch((res) => {console.log(res) ; return;})
+        .catch((res) => {setError(res) ; return;})
 
         await getAllVideos({page : 1})
         .then((res) => dispatch(video(res.message.videos)))
