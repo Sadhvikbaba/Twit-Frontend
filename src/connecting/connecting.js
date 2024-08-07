@@ -22,9 +22,9 @@ const handleApiResponse = (apiCall) => {
         apiCall
             .then((res) => resolve(res.data))
             .catch((error) => {
-                const errorMessage = error.response?.data?.match(/Error: ([\s\S]*?)<br>/);
-                if (errorMessage) reject(errorMessage[1]);
-                else reject("unknown error");
+                //const errorMessage = error.response?.data?.match(/Error: ([\s\S]*?)<br>/);
+                //if (errorMessage) reject(errorMessage[1]);
+                else reject(error);
             });
     });
 };
