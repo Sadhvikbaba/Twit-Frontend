@@ -33,6 +33,10 @@ export const login = (credentials) => handleApiResponse(
     apiClient.post(`${baseURL}/users/login`, {email : credentials.email , password : credentials.password} , {withCredentials:true})
 );
 
+export const logout = () => handleApiResponse(
+    apiClient.post(`${baseURL}/users/logout` , {} , {withCredentials : true})
+)
+
 export const register = (credentials) => handleApiResponse(
     apiClient2.post(`${baseURL}/users/register` , credentials , {withCredentials : true})
 );

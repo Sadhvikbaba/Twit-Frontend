@@ -7,6 +7,7 @@ import { logout as playlistLogout } from '../store/playlistSlice';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import {SlLogout} from "react-icons/sl"
+import {logout as connectingLogout} from "../connecting/connecting.js"
 
 function LogoutBtn() {
     const port = import.meta.env.VITE_URI; 
@@ -14,7 +15,7 @@ function LogoutBtn() {
     const navigate = useNavigate()
 
     const logoutHandler = async () => {
-            axios.post(`${port}/users/logout` , {} , {withCredentials : true})
+            await connectingLogout()
             .then(dispatch(logout()))
             .then(dispatch(videoLogout()))
             .then(dispatch(tweetLogout()))

@@ -2,18 +2,24 @@ import React, {useState} from 'react'
 import {Link ,useNavigate} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {useForm} from 'react-hook-form'
-import {Button , Input} from './index'
+import {Button , Input, LoadingSpinner} from './index'
 import {RxAvatar} from "react-icons/rx"
 import signup from "../assets/signup.png"
-import {register as signUp} from '../connecting/connecting.js'
+import {login as authLogin} from "../store/authSlice"
+import {video} from "../store/videoSlice.js"
+import {setTweets} from "../store/tweetSlice.js"
+import {setPlaylist} from "../store/playlistSlice.js"
+import {register as signUp , login as connecting , getAllVideos , getTweets, getUserPlaylists} from '../connecting/connecting.js'
 
 
 function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
     const [step,setStep] = useState(false)
     const [avatar,setAvatar] = useState()
     const dispatch = useDispatch()
+    const Navigate = useNavigate()
     const {register, handleSubmit} = useForm()
 
     
@@ -35,7 +41,32 @@ function Signup() {
         console.log(formData);
 
         await signUp(formData)
-        .then((res)=>console.log(res))
+        .then( () =>{
+            setLoading(true);
+            const login = async (data)=>{
+                let id = null
+                await connecting(data)
+                .then((res) => {
+                    id = res.message.user?._id.toString();
+                    dispatch(authLogin(res.message.user))})
+                .catch((res) => setError(res))
+        
+                await getAllVideos({page : 1})
+                .then((res) => dispatch(video(res.message.videos)))
+                .catch((res) => console.log(res))
+        
+                await getTweets({page : 1})
+                .then((res) => dispatch(setTweets(res.message)))
+                .catch((res) => console.log(res))
+        
+                await getUserPlaylists(id)
+                .then((res)=> dispatch(setPlaylist(res.message)))
+                .then(() => navigate("/videos"))
+                .catch((res)=>console.log(res))
+        
+            }
+            login({email : data.email , password : data.password})
+    })
         .catch((res) => setError(res))
     }
 
@@ -53,7 +84,9 @@ function Signup() {
           reader.readAsDataURL(file);
         }}
 
-  return (
+    if(loading) return<LoadingSpinner />
+
+  if(!loading) return (
     <div className="mx-auto w-full max-w-7xl"> 
         <div className='grid grid-cols-1 md:grid-cols-2 w-full mt-14 sm:mt-32'>
             <div className=" w-full  sm:pt-1  h-full mb-6 p-2"> 
