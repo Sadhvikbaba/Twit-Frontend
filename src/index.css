@@ -7,7 +7,6 @@ body {
   padding: 0;
 }
 
-/* Add this to your global CSS file */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
